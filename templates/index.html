@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Notebook</h1>
+    <a href="{{ url_for('new_note') }}">New Note</a>
+    <h4>{{ note_list|length }} notes:</h4>
+    {% for note in note_list %}
+        <div class="note">
+            <p>{{ note.body }}</p>
+            {% if note.timestemp %}
+            <small>{{ note.time }}</small>
+            {% endif %}
+            <a href="{{ url_for('edit_note', note_id=note.id) }}" class="btn">Edit</a>
+            <form method="post" action="{{ url_for('delete', note_id=note.id) }}">
+                {{ form.csrf_token }}
+                {{ form.delete(class='btn') }}
+            </form>
+        </div>
+    {% endfor %}
+{% endblock %}
